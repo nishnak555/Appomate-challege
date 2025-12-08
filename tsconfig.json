@@ -4,10 +4,10 @@
     "files": [],
     "references": [
         {
-            "path": "./apps/AppomateChallenge-e2e"
+            "path": "./apps/webapp-e2e"
         },
         {
-            "path": "./apps/AppomateChallenge"
+            "path": "./apps/webapp"
         },
         {
             "path": "./apps/server-e2e"

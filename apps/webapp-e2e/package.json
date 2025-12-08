@@ -1,0 +1,11 @@
+{
+    "name": "@appomate-challenge/webapp-e2e",
+    "version": "0.0.1",
+    "private": true,
+    "nx": {
+        "implicitDependencies": [
+            "@appomate-challenge/webapp"
+        ],
+        "name": "@appomate-challenge/webapp-e2e"
+    }
+}
