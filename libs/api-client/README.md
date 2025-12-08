@@ -12,6 +12,8 @@ A shared API client library for making HTTP requests. Compatible with both web a
 - ✅ Custom error handling with `ApiError` class
 - ✅ Configurable headers
 - ✅ Support for all HTTP methods (GET, POST, PUT, PATCH, DELETE)
+- ✅ Task API with static methods for todo list operations
+- ✅ React Query hooks for data fetching and mutations
 
 ## Building
 
@@ -195,3 +197,261 @@ Custom error class thrown for API errors.
 - `message: string` - Error message
 - `status: number` - HTTP status code (0 for network errors)
 - `data?: unknown` - Additional error data from the server
+
+## Task API
+
+The library includes a Task API for managing todo tasks with React Query integration.
+
+### Setup
+
+First, initialize the TaskAPI with an ApiClient instance:
+
+```typescript
+import { createApiClient, TaskAPI } from '@appomate-challenge/api-client';
+
+// Create and initialize the API client
+const apiClient = createApiClient({
+  baseURL: 'http://localhost:3333',
+});
+
+// Initialize TaskAPI
+TaskAPI.initialize(apiClient);
+```
+
+### TaskAPI Static Methods
+
+```typescript
+// Fetch all tasks
+const tasks = await TaskAPI.fetchTaskList();
+
+// Fetch a single task
+const task = await TaskAPI.fetchTask(1);
+
+// Create a new task
+const newTask = await TaskAPI.createTask({
+  title: 'New task',
+  description: 'Task description',
+  completed: false,
+});
+
+// Update a task
+const updatedTask = await TaskAPI.updateTask(1, {
+  completed: true,
+});
+
+// Delete a task
+await TaskAPI.deleteTask(1);
+```
+
+### React Query Hooks
+
+The library provides React Query hooks for easy data fetching and mutations.
+
+#### Setup React Query Provider
+
+First, wrap your app with QueryClientProvider:
+
+```typescript
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TaskAPI, createApiClient } from '@appomate-challenge/api-client';
+
+const queryClient = new QueryClient();
+
+// Initialize TaskAPI
+const apiClient = createApiClient({
+  baseURL: 'http://localhost:3333',
+});
+TaskAPI.initialize(apiClient);
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* Your app components */}
+    </QueryClientProvider>
+  );
+}
+```
+
+#### useTaskList Hook
+
+Fetch all tasks:
+
+```typescript
+import { useTaskList } from '@appomate-challenge/api-client';
+
+function TaskList() {
+  const { data: tasks, isLoading, error } = useTaskList();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <ul>
+      {tasks?.map((task) => (
+        <li key={task.id}>{task.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+#### useTask Hook
+
+Fetch a single task:
+
+```typescript
+import { useTask } from '@appomate-challenge/api-client';
+
+function TaskDetail({ taskId }: { taskId: number }) {
+  const { data: task, isLoading, error } = useTask(taskId);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!task) return <div>Task not found</div>;
+
+  return (
+    <div>
+      <h1>{task.title}</h1>
+      <p>{task.description}</p>
+      <p>Completed: {task.completed ? 'Yes' : 'No'}</p>
+    </div>
+  );
+}
+```
+
+#### useCreateTask Hook
+
+Create a new task:
+
+```typescript
+import { useCreateTask } from '@appomate-challenge/api-client';
+
+function CreateTaskForm() {
+  const createTask = useCreateTask();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    createTask.mutate(
+      {
+        title: formData.get('title') as string,
+        description: formData.get('description') as string,
+      },
+      {
+        onSuccess: () => {
+          console.log('Task created successfully!');
+          e.currentTarget.reset();
+        },
+        onError: (error) => {
+          console.error('Failed to create task:', error);
+        },
+      }
+    );
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="title" placeholder="Task title" required />
+      <textarea name="description" placeholder="Description" />
+      <button type="submit" disabled={createTask.isPending}>
+        {createTask.isPending ? 'Creating...' : 'Create Task'}
+      </button>
+    </form>
+  );
+}
+```
+
+#### useUpdateTask Hook
+
+Update an existing task:
+
+```typescript
+import { useUpdateTask } from '@appomate-challenge/api-client';
+
+function TaskItem({ task }: { task: Task }) {
+  const updateTask = useUpdateTask();
+
+  const toggleComplete = () => {
+    updateTask.mutate(
+      {
+        id: task.id,
+        data: { completed: !task.completed },
+      },
+      {
+        onSuccess: () => {
+          console.log('Task updated successfully!');
+        },
+      }
+    );
+  };
+
+  return (
+    <div>
+      <input
+        type="checkbox"
+        checked={task.completed}
+        onChange={toggleComplete}
+        disabled={updateTask.isPending}
+      />
+      <span>{task.title}</span>
+    </div>
+  );
+}
+```
+
+#### useDeleteTask Hook
+
+Delete a task:
+
+```typescript
+import { useDeleteTask } from '@appomate-challenge/api-client';
+
+function TaskItem({ task }: { task: Task }) {
+  const deleteTask = useDeleteTask();
+
+  const handleDelete = () => {
+    if (confirm('Are you sure you want to delete this task?')) {
+      deleteTask.mutate(task.id, {
+        onSuccess: () => {
+          console.log('Task deleted successfully!');
+        },
+      });
+    }
+  };
+
+  return (
+    <div>
+      <span>{task.title}</span>
+      <button onClick={handleDelete} disabled={deleteTask.isPending}>
+        {deleteTask.isPending ? 'Deleting...' : 'Delete'}
+      </button>
+    </div>
+  );
+}
+```
+
+### Task Types
+
+```typescript
+interface Task {
+  id: number;
+  title: string;
+  description?: string | null;
+  completed: boolean;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
+interface CreateTaskRequest {
+  title: string;
+  description?: string | null;
+  completed?: boolean;
+}
+
+interface UpdateTaskRequest {
+  title?: string;
+  description?: string | null;
+  completed?: boolean;
+}
+```
