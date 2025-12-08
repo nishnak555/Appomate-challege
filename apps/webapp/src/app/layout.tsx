@@ -7,22 +7,22 @@ import { ApiProvider } from '@/components/providers/api-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Todo List App',
-    description: 'A simple and elegant task management application',
+  title: 'Todo List App',
+  description: 'A simple and elegant task management application',
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <ApiProvider>
-                    <QueryProvider>{children}</QueryProvider>
-                </ApiProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang='en'>
+      <body className={inter.className}>
+        <ApiProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ApiProvider>
+      </body>
+    </html>
+  );
 }

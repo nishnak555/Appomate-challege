@@ -34,7 +34,7 @@ import { createApiClient } from '@appomate-challenge/api-client';
 const apiClient = createApiClient({
   baseURL: 'https://api.example.com',
   headers: {
-    'Authorization': 'Bearer your-token-here',
+    Authorization: 'Bearer your-token-here',
   },
   timeout: 30000, // 30 seconds (optional, defaults to 30000)
 });
@@ -173,6 +173,7 @@ const fetchUsers = async () => {
 Creates a new API client instance.
 
 **Config Options:**
+
 - `baseURL` (string, required): The base URL for all API requests
 - `headers` (Record<string, string>, optional): Default headers to include with all requests
 - `timeout` (number, optional): Request timeout in milliseconds (default: 30000)
@@ -194,6 +195,7 @@ Creates a new API client instance.
 Custom error class thrown for API errors.
 
 **Properties:**
+
 - `message: string` - Error message
 - `status: number` - HTTP status code (0 for network errors)
 - `data?: unknown` - Additional error data from the server
@@ -264,11 +266,7 @@ const apiClient = createApiClient({
 TaskAPI.initialize(apiClient);
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      {/* Your app components */}
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{/* Your app components */}</QueryClientProvider>;
 }
 ```
 
@@ -352,9 +350,9 @@ function CreateTaskForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Task title" required />
-      <textarea name="description" placeholder="Description" />
-      <button type="submit" disabled={createTask.isPending}>
+      <input name='title' placeholder='Task title' required />
+      <textarea name='description' placeholder='Description' />
+      <button type='submit' disabled={createTask.isPending}>
         {createTask.isPending ? 'Creating...' : 'Create Task'}
       </button>
     </form>
@@ -388,12 +386,7 @@ function TaskItem({ task }: { task: Task }) {
 
   return (
     <div>
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={toggleComplete}
-        disabled={updateTask.isPending}
-      />
+      <input type='checkbox' checked={task.completed} onChange={toggleComplete} disabled={updateTask.isPending} />
       <span>{task.title}</span>
     </div>
   );

@@ -10,10 +10,10 @@ import { taskKeys } from './task-keys.js';
  * @returns Query result with task data
  */
 export function useTask(id: number, options?: Omit<UseQueryOptions<Task, Error>, 'queryKey' | 'queryFn'>) {
-    return useQuery<Task, Error>({
-        queryKey: taskKeys.detail(id),
-        queryFn: () => TaskAPI.fetchTask(id),
-        enabled: !!id && options?.enabled !== false,
-        ...options,
-    });
+  return useQuery<Task, Error>({
+    queryKey: taskKeys.detail(id),
+    queryFn: () => TaskAPI.fetchTask(id),
+    enabled: !!id && options?.enabled !== false,
+    ...options,
+  });
 }

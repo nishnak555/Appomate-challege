@@ -1,25 +1,25 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compileOnSave": false,
-    "files": [],
-    "references": [
-        {
-            "path": "./apps/webapp-e2e"
-        },
-        {
-            "path": "./apps/webapp"
-        },
-        {
-            "path": "./apps/server-e2e"
-        },
-        {
-            "path": "./apps/server"
-        },
-        {
-            "path": "./libs/core"
-        },
-        {
-            "path": "./libs/api-client"
-        }
-    ]
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/webapp-e2e"
+    },
+    {
+      "path": "./apps/webapp"
+    },
+    {
+      "path": "./apps/server-e2e"
+    },
+    {
+      "path": "./apps/server"
+    },
+    {
+      "path": "./libs/core"
+    },
+    {
+      "path": "./libs/api-client"
+    }
+  ]
 }

@@ -9,9 +9,9 @@ import { taskKeys } from './task-keys.js';
  * @returns Query result with tasks array
  */
 export function useTaskList(options?: Omit<UseQueryOptions<Task[], Error>, 'queryKey' | 'queryFn'>) {
-    return useQuery<Task[], Error>({
-        queryKey: taskKeys.lists(),
-        queryFn: () => TaskAPI.fetchTaskList(),
-        ...options,
-    });
+  return useQuery<Task[], Error>({
+    queryKey: taskKeys.lists(),
+    queryFn: () => TaskAPI.fetchTaskList(),
+    ...options,
+  });
 }

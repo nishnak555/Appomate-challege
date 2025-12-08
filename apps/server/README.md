@@ -29,6 +29,7 @@ nx build server
 ## API Endpoints
 
 ### Base URL
+
 ```
 http://localhost:3333/api
 ```
@@ -36,11 +37,13 @@ http://localhost:3333/api
 ### Tasks API
 
 #### Get All Tasks
+
 ```http
 GET /api/tasks
 ```
 
 **Response:**
+
 ```json
 [
   {
@@ -55,11 +58,13 @@ GET /api/tasks
 ```
 
 #### Get Single Task
+
 ```http
 GET /api/tasks/:id
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -72,6 +77,7 @@ GET /api/tasks/:id
 ```
 
 **Error Response (404):**
+
 ```json
 {
   "error": "Task not found"
@@ -79,6 +85,7 @@ GET /api/tasks/:id
 ```
 
 #### Create Task
+
 ```http
 POST /api/tasks
 Content-Type: application/json
@@ -91,6 +98,7 @@ Content-Type: application/json
 ```
 
 **Response (201):**
+
 ```json
 {
   "id": 1,
@@ -103,6 +111,7 @@ Content-Type: application/json
 ```
 
 **Error Response (400):**
+
 ```json
 {
   "error": "Title is required"
@@ -110,6 +119,7 @@ Content-Type: application/json
 ```
 
 #### Update Task
+
 ```http
 PUT /api/tasks/:id
 Content-Type: application/json
@@ -122,6 +132,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -136,6 +147,7 @@ Content-Type: application/json
 **Note:** All fields are optional. Only provided fields will be updated.
 
 #### Delete Task
+
 ```http
 DELETE /api/tasks/:id
 ```
@@ -143,6 +155,7 @@ DELETE /api/tasks/:id
 **Response:** 204 No Content
 
 **Error Response (404):**
+
 ```json
 {
   "error": "Task not found"

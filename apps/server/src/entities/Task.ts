@@ -2,21 +2,21 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 
 @Entity('tasks')
 export class Task {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column({ type: 'text' })
-    title!: string;
+  @Column({ type: 'text' })
+  title!: string;
 
-    @Column({ type: 'text', nullable: true })
-    description?: string;
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
-    @Column({ type: 'boolean', default: false })
-    completed!: boolean;
+  @Column({ type: 'boolean', default: false })
+  completed!: boolean;
 
-    @CreateDateColumn()
-    createdAt!: Date;
+  @CreateDateColumn()
+  createdAt!: Date;
 
-    @UpdateDateColumn()
-    updatedAt!: Date;
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

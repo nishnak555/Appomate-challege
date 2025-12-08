@@ -9,10 +9,10 @@ const app = express();
 
 // CORS middleware - allow requests from webapp
 app.use(
-    cors({
-        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-        credentials: true,
-    })
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+  })
 );
 
 // Middleware
@@ -21,7 +21,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Health check endpoint
 app.get('/api', (req, res) => {
-    res.send({ message: 'Welcome to server!' });
+  res.send({ message: 'Welcome to server!' });
 });
 
 // Tasks API routes
@@ -31,31 +31,31 @@ const port = process.env.PORT || 3333;
 
 // Initialize TypeORM and start server
 async function startServer() {
-    try {
-        // Initialize TypeORM data source
-        await AppDataSource.initialize();
-        console.log('Database initialized successfully');
+  try {
+    // Initialize TypeORM data source
+    await AppDataSource.initialize();
+    console.log('Database initialized successfully');
 
-        // Start Express server
-        const server = app.listen(port, () => {
-            console.log(`Listening at http://localhost:${port}/api`);
-        });
+    // Start Express server
+    const server = app.listen(port, () => {
+      console.log(`Listening at http://localhost:${port}/api`);
+    });
 
-        server.on('error', console.error);
+    server.on('error', console.error);
 
-        // Graceful shutdown
-        process.on('SIGTERM', async () => {
-            console.log('SIGTERM signal received: closing HTTP server');
-            server.close(async () => {
-                console.log('HTTP server closed');
-                await AppDataSource.destroy();
-                console.log('Database connection closed');
-            });
-        });
-    } catch (error) {
-        console.error('Error during server startup:', error);
-        process.exit(1);
-    }
+    // Graceful shutdown
+    process.on('SIGTERM', async () => {
+      console.log('SIGTERM signal received: closing HTTP server');
+      server.close(async () => {
+        console.log('HTTP server closed');
+        await AppDataSource.destroy();
+        console.log('Database connection closed');
+      });
+    });
+  } catch (error) {
+    console.error('Error during server startup:', error);
+    process.exit(1);
+  }
 }
 
 startServer();

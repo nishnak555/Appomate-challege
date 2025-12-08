@@ -9,14 +9,14 @@ import { taskKeys } from './task-keys.js';
  * @returns Mutation object with createTask function
  */
 export function useCreateTask(options?: UseMutationOptions<Task, Error, CreateTaskRequest>) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation<Task, Error, CreateTaskRequest>({
-        mutationFn: (taskData: CreateTaskRequest) => TaskAPI.createTask(taskData),
-        onSuccess: () => {
-            // Invalidate and refetch task list after successful creation
-            queryClient.invalidateQueries({ queryKey: taskKeys.lists() });
-        },
-        ...options,
-    });
+  return useMutation<Task, Error, CreateTaskRequest>({
+    mutationFn: (taskData: CreateTaskRequest) => TaskAPI.createTask(taskData),
+    onSuccess: () => {
+      // Invalidate and refetch task list after successful creation
+      queryClient.invalidateQueries({ queryKey: taskKeys.lists() });
+    },
+    ...options,
+  });
 }
