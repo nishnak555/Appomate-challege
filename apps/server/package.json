@@ -66,6 +66,12 @@
         }
     },
     "dependencies": {
-        "express": "^4.21.2"
+        "better-sqlite3": "^12.5.0",
+        "express": "^4.21.2",
+        "reflect-metadata": "^0.2.2",
+        "typeorm": "^0.3.28"
+    },
+    "devDependencies": {
+        "@types/better-sqlite3": "^7.6.13"
     }
 }
