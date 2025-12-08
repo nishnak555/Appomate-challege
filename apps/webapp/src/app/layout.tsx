@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './global.css';
 import { QueryProvider } from '@/components/providers/query-provider';
-import '@/lib/api'; // Initialize API client
+import { ApiProvider } from '@/components/providers/api-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +19,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <QueryProvider>{children}</QueryProvider>
+                <ApiProvider>
+                    <QueryProvider>{children}</QueryProvider>
+                </ApiProvider>
             </body>
         </html>
     );
