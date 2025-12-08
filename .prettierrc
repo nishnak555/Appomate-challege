@@ -1,0 +1,19 @@
+{
+  "jsxSingleQuote": true,
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 4,
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@appomate-challenge/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": [
+    "typescript",
+    "classProperties",
+    "[\"decorators\", { \"decoratorsBeforeExport\": false }]"
+  ]
+}
