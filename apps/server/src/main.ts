@@ -4,6 +4,7 @@ import cors from 'cors';
 import * as path from 'path';
 import { AppDataSource } from './data-source';
 import tasksRouter from './routes/tasks';
+import categoriesRouter from './routes/categories';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get('/api', (req, res) => {
 
 // Tasks API routes
 app.use('/api/tasks', tasksRouter);
+app.use('/api/categories', categoriesRouter);
 
 const port = process.env.PORT || 3333;
 

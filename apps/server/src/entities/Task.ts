@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Category } from './Category';
 
 @Entity('tasks')
 export class Task {
@@ -10,6 +11,10 @@ export class Task {
 
   @Column({ type: 'text', nullable: true })
   description?: string;
+
+  @ManyToOne(() => Category, (category) => category.tasks, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'categoryId' })
+  category?: Category | null;
 
   @Column({ type: 'boolean', default: false })
   completed!: boolean;
