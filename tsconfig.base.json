@@ -5,6 +5,7 @@
     "emitDeclarationOnly": true,
     "importHelpers": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "lib": ["es2022"],
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -16,6 +17,12 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@appomate-challenge/source"]
+    "customConditions": ["@appomate-challenge/source"],
+    "paths": {
+      "@appomate-challenge/api-client": ["libs/api-client/src/index.ts"],
+      "@appomate-challenge/api-client/*": ["libs/api-client/src/*"],
+      "@appomate-challenge/core": ["libs/core/src/index.ts"],
+      "@appomate-challenge/core/*": ["libs/core/src/*"]
+    }
   }
 }
