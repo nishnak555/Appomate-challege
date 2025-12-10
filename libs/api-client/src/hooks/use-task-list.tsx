@@ -1,17 +1,29 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { TaskAPI } from '../api/task-api.js';
-import { Task } from '../types/index.js';
-import { taskKeys } from './task-keys.js';
+import { TaskAPI, TaskListFilters } from '../api/task-api';
+import { Task } from '../types';
+import { taskKeys } from './task-keys';
 
 /**
  * Hook to fetch the list of all tasks
+ * @param filters - Optional filters (category, search)
  * @param options - React Query options
  * @returns Query result with tasks array
  */
-export function useTaskList(options?: Omit<UseQueryOptions<Task[], Error>, 'queryKey' | 'queryFn'>) {
+export function useTaskList(
+  filters?: TaskListFilters,
+  options?: Omit<UseQueryOptions<Task[], Error>, 'queryKey' | 'queryFn'>
+) {
+  const normalizedFilters: TaskListFilters | undefined = filters
+    ? {
+        categoryId: filters.categoryId ?? undefined,
+        search: filters.search?.trim() || undefined,
+      }
+    : undefined;
+
   return useQuery<Task[], Error>({
-    queryKey: taskKeys.lists(),
-    queryFn: () => TaskAPI.fetchTaskList(),
+    queryKey: taskKeys.list(normalizedFilters),
+    queryFn: () => TaskAPI.fetchTaskList(normalizedFilters),
+    placeholderData: (previousData) => previousData, // Keep previous data while fetching new data
     ...options,
   });
 }

@@ -1,5 +1,12 @@
-import { ApiClient } from './api-client.js';
-import { Task, CreateTaskRequest, UpdateTaskRequest } from '../types/index.js';
+import { ApiClient } from './api-client';
+import { Task, CreateTaskRequest, UpdateTaskRequest, Category } from '../types';
+
+export interface TaskListFilters {
+  categoryId?: number | null;
+  search?: string;
+}
+
+export type TaskCategory = string;
 
 /**
  * TaskAPI class with static methods for task-related API calls
@@ -28,11 +35,24 @@ export class TaskAPI {
 
   /**
    * Fetch all tasks
+   * @param filters - Optional filters for category and search
    * @returns Promise resolving to an array of tasks
    */
-  static async fetchTaskList(): Promise<Task[]> {
+  static async fetchTaskList(filters?: TaskListFilters): Promise<Task[]> {
     const client = TaskAPI.getClient();
-    return client.get<Task[]>('/api/tasks');
+    const params = new URLSearchParams();
+
+    if (filters?.categoryId !== undefined && filters?.categoryId !== null) {
+      params.append('categoryId', String(filters.categoryId));
+    }
+
+    if (filters?.search && filters.search.trim().length > 0) {
+      params.append('search', filters.search.trim());
+    }
+
+    const query = params.toString();
+    const url = query ? `/api/tasks?${query}` : '/api/tasks';
+    return client.get<Task[]>(url);
   }
 
   /**
@@ -77,5 +97,24 @@ export class TaskAPI {
   static async deleteTask(id: number): Promise<void> {
     const client = TaskAPI.getClient();
     await client.delete(`/api/tasks/${id}`);
+  }
+
+  /**
+   * Fetch distinct task categories
+   * @returns Promise resolving to an array of categories
+   */
+  static async fetchCategories(): Promise<Category[]> {
+    const client = TaskAPI.getClient();
+    return client.get<Category[]>('/api/categories');
+  }
+
+  /**
+   * Create a new category
+   * @param name - Category name
+   * @returns Promise resolving to the created category
+   */
+  static async createCategory(name: string): Promise<Category> {
+    const client = TaskAPI.getClient();
+    return client.post<Category>('/api/categories', { name });
   }
 }

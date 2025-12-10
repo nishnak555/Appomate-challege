@@ -1,2 +1,3 @@
-export * from './api-client.js';
-export * from './task-api.js';
+export * from './api-client';
+export * from './task-api';
+

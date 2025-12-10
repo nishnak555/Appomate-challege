@@ -1,3 +1,4 @@
-export * from './task.js';
-export * from './create-task-request.js';
-export * from './update-task-request.js';
+export * from './task';
+export * from './create-task-request';
+export * from './update-task-request';
+export type { Category } from './task';

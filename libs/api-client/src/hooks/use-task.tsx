@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { TaskAPI } from '../api/task-api.js';
-import { Task } from '../types/index.js';
-import { taskKeys } from './task-keys.js';
+import { TaskAPI } from '../api/task-api';
+import { Task } from '../types';
+import { taskKeys } from './task-keys';
 
 /**
  * Hook to fetch a single task by ID

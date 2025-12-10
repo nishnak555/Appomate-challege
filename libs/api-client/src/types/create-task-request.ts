@@ -5,4 +5,5 @@ export interface CreateTaskRequest {
   title: string;
   description?: string | null;
   completed?: boolean;
+  categoryId?: number | null;
 }
